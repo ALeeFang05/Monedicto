@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Monedicto" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+    <style name="MenuDesplegable" parent="Widget.Material3.PopupMenu">
+
+        <item name="materialThemeOverlay">@style/ColoresMenu</item>
+    </style>
+
+    <style name="ColoresMenu">
+        <item name="colorSurface">#212121</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Theme.Monedicto" parent="Base.Theme.Monedicto" />
+</resources>

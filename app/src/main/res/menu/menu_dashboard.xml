@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://android.com">
+    <item
+        android:id="@+id/menu_finanzas"
+        android:title="Registrar Ahorro"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_historial"
+        android:title="Ver Historial"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_encuesta"
+        android:title="Responder Encuesta"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_perfil"
+        android:title="Mi Perfil"
+        app:showAsAction="never"/>
+</menu>
