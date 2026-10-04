@@ -12,48 +12,56 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import android.content.Intent
+import android.widget.Button
+import com.google.android.material.navigationrail.NavigationRailView
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+    private var estaExpandido = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Monedicto"
-    }
+        val navigationRail = findViewById<NavigationRailView>(R.id.navigationRail)
 
-    //crea el menu de los 3 punticos
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_dashboard, menu)
-        return true
-    }
+        val headerView = navigationRail.headerView
+        val btnLogo = headerView?.findViewById<Button>(R.id.btnLogo)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
-            R.id.menu_finanzas -> {
-                val intent = Intent(this, FinanzasAct::class.java)
-                startActivity(intent)
-                true
+        btnLogo?.setOnClickListener {
+            estaExpandido = !estaExpandido
+            if (estaExpandido) {
+                navigationRail.labelVisibilityMode = NavigationRailView.LABEL_VISIBILITY_LABELED
+            } else {
+                navigationRail.labelVisibilityMode = NavigationRailView.LABEL_VISIBILITY_UNLABELED
             }
-            R.id.menu_historial -> {
-                Toast.makeText(this, "Redirreccionando al Historial... \n " +
-                        "Espere por favor...", Toast.LENGTH_SHORT)
-                true
+        }
+
+        navigationRail.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.rail_home -> {
+                    true
+                }
+
+                R.id.rail_finanzas -> {
+                    startActivity(Intent(this, FinanzasAct::class.java))
+                    true
+                }
+
+                R.id.rail_encuesta -> {
+                    startActivity(Intent(this, EncuestaAct::class.java))
+                    true
+                }
+
+                R.id.rail_historial -> {
+                    Toast.makeText(this, "Abriendo Historial...", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
             }
-            R.id.menu_encuesta -> {
-                val intent = Intent(this, EncuestaAct::class.java)
-                startActivity(intent)
-                true
-            }
-            R.id.menu_perfil -> {
-                Toast.makeText(this, "Redirreccionando al perfil... \n " +
-                        "Espere por favor...", Toast.LENGTH_SHORT)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }
+
+
