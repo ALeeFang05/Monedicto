@@ -1,7 +1,456 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fillViewport="true"
+    tools:context=".EncuestaAct">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- TÍTULO -->
+        <TextView
+            android:id="@+id/txtEncuesta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="8dp"
+            android:text="Encuesta SOGS"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- PREGUNTA 1 -->
+        <TextView
+            android:id="@+id/txtPreg1"
+            android:layout_width="313dp"
+            android:layout_height="98dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:justificationMode="inter_word"
+            android:text="1. Cuando juegas dinero, ¿la mayoría de las veces que pierdes, o siempre que pierdes, vuelves otra vez a jugar para recuperar lo perdido?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG1"
+            android:layout_width="169dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb1_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb1_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 2 -->
+        <TextView
+            android:id="@+id/txtPreg2"
+            android:layout_width="320dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:justificationMode="inter_word"
+            android:text="2. ¿Has afirmado alguna vez haber ganado dinero en el juego cuando en realidad habías perdido? "
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbGB2"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb2_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb2_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 3 -->
+        <TextView
+            android:id="@+id/txtPreg3"
+            android:layout_width="309dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="36dp"
+            android:justificationMode="inter_word"
+            android:text="3. ¿Crees que tienes o has tenido alguna vez problemas con el juego?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG3"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb3_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb3_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 4 -->
+        <TextView
+            android:id="@+id/txtPreg4"
+            android:layout_width="313dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:justificationMode="inter_word"
+            android:text="4. ¿Has jugado alguna vez más dinero del que tenías pensado?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG4"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb4_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb4_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 5 -->
+        <TextView
+            android:id="@+id/txtPreg5"
+            android:layout_width="309dp"
+            android:layout_height="92dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="5. ¿Te ha criticado la gente por jugar dinero o te ha dicho alguien que tenías un problema de juego, a pesar de que tú crees que no es cierto?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG5"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb5_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb5_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 6 -->
+        <TextView
+            android:id="@+id/txtPreg6"
+            android:layout_width="307dp"
+            android:layout_height="87dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="6. ¿Te has sentido alguna vez culpable por jugar o por lo que te ocurre cuando juegas?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG6"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb6_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb6_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 7 -->
+        <TextView
+            android:id="@+id/txtPreg7"
+            android:layout_width="300dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="7. ¿Has intentado alguna vez dejar de jugar y no has sido capaz de ello?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG7"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb7_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb7_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 8 -->
+        <TextView
+            android:id="@+id/txtPreg8"
+            android:layout_width="302dp"
+            android:layout_height="122dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="8. ¿Has ocultado alguna vez a tu pareja, a tus hijos o a otros seres queridos billetes de lotería, fichas de apuestas, dinero obtenido en el juego u otros signos de juego?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG8"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb8_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb8_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 9 -->
+        <TextView
+            android:id="@+id/txtPreg9"
+            android:layout_width="305dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="9. ¿Has discutido alguna vez con las personas con quienes convives sobre la forma de administrar el dinero?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG9"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb9_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb9_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 10 -->
+        <TextView
+            android:id="@+id/txtPreg10"
+            android:layout_width="336dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:text="10. ¿Se han centrado alguna vez las discusiones de dinero sobre el juego?"
+            android:justificationMode="inter_word"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG10"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb10_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb10_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 11 -->
+        <TextView
+            android:id="@+id/txtPreg11"
+            android:layout_width="306dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="11. ¿Has pedido alguna vez dinero prestado a alguien y no se lo has devuelto a causa del juego?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG11"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb11_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb11_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 12 -->
+        <TextView
+            android:id="@+id/txtPreg12"
+            android:layout_width="313dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:justificationMode="inter_word"
+            android:text="12. ¿Has perdido alguna vez tiempo de trabajo o de clase debido al juego?"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG12"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb12_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb12_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- PREGUNTA 13 -->
+        <TextView
+            android:id="@+id/txtPreg13"
+            android:layout_width="315dp"
+            android:layout_height="133dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:text="13. Si has pedido prestado dinero para jugar o pagar deudas, ¿a quién se lo has pedido o de dónde lo has obtenido? (Dinero de casa, pareja, familiares, bancos, tarjetas de crédito, prestamistas o venta de propiedades)."
+            android:justificationMode="inter_word"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/rbG13"
+            android:layout_width="171dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="16dp">
+
+            <RadioButton
+                android:id="@+id/rb13_S"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Si" />
+
+            <RadioButton
+                android:id="@+id/rb13_N"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No" />
+        </RadioGroup>
+
+        <!-- BOTÓN ENVIAR -->
+        <Button
+            android:id="@+id/btnCalcular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Enviar"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</ScrollView>
