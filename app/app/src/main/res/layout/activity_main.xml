@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="#F8F9FA">
 
     <!-- 1. BARRA SUPERIOR (Toolbar) -->
     <androidx.appcompat.widget.Toolbar
@@ -14,13 +15,26 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/MenuDesplegable"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- 2. BARRA LATERAL IZQUIERDA (Navigation Rail)
-         CORREGIDO: Sujeta firmemente al borde izquierdo y abajo de la Toolbar -->
+        <!-- Botón de la M: Solo aparecerá cuando el NavigationRail se oculte -->
+        <Button
+            android:id="@+id/btnMenuToolbar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="M"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:backgroundTint="?attr/colorAccent"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 2. BARRA LATERAL IZQUIERDA (Navigation Rail) -->
     <com.google.android.material.navigationrail.NavigationRailView
         android:id="@+id/navigationRail"
         android:layout_width="wrap_content"
@@ -32,49 +46,244 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <!-- 3. CONTENIDO CENTRAL (Dashboard) -->
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <!-- 3. CONTENIDO CENTRAL (Dashboard)
+         startToStartOf en parent con una prioridad baja para que se estire
+         cuando el Rail cambie a GONE de forma automática -->
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center"
+        android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/navigationRail"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_horizontalBias="0.0">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Bienvenido de vuelta!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="32dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tu progreso de Ahorro"
-            android:textSize="18sp"/>
-
-        <ProgressBar
-            android:id="@+id/progressAhorro"
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginVertical="16dp"
-            android:max="100"
-            android:progress="60" />
-
-        <TextView
-            android:id="@+id/txtMetas"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Meta: $5000 | Llevas: $3000"
-            android:textSize="16sp"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Bienvenido de vuelta!"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tú resumen financiero y ludopático"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Tarjeta Principal de Ahorro -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Meta General de Ahorro"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <!-- Barra de progreso -->
+                    <ProgressBar
+                        android:id="@+id/progressAhorro"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:layout_marginVertical="14dp"
+                        android:max="100"
+                        android:progress="60" />
+
+                    <!-- Fila con la Meta -->
+                    <TextView
+                        android:id="@+id/txtMetas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Meta: $50,000 | Llevas: $3,000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#424242"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Divisor sutil entre el progreso y las fechas -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E0E0"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- BLOQUE DE FECHAS (Lado a lado) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fecha Inicio"
+                                android:textSize="11sp"
+                                android:textColor="#757575"/>
+                            <TextView
+                                android:id="@+id/txtFechaInicio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10-Ene-2026"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:textColor="#212121"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="end">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fecha Fin"
+                                android:textSize="11sp"
+                                android:textColor="#757575"/>
+                            <TextView
+                                android:id="@+id/txtFechaFin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20-Dic-2026"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:textColor="#212121"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- RESULTADO DE ENCUESTAS -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nivel de Ludopatía"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <!-- Fila con Calificación Promedio -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginVertical="10dp">
+
+                        <TextView
+                            android:id="@+id/txtPromedioEncuestas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="#212121"
+                            android:layout_marginEnd="8dp"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- RatingBar pequeño de solo lectura -->
+                            <RatingBar
+                                android:id="@+id/ratingBarMini"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:numStars="10"
+                                android:rating="2.5"
+                                android:stepSize="0.5"
+                                android:progressTint="#FFB300"/>
+
+                            <TextView
+                                android:id="@+id/txtTotalOpiniones"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Basado en la encuesta SOGS"
+                                android:textSize="12sp"
+                                android:textColor="#757575"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Último Comentario Destacado -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#F5F5F5"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Conducta:"
+                            android:textSize="11sp"
+                            android:textStyle="italic"
+                            android:textColor="#616161"/>
+
+                        <TextView
+                            android:id="@+id/txtUltimoComentario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="&quot;Juego problemático potencial.&quot;"
+                            android:textSize="13sp"
+                            android:textColor="#424242"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

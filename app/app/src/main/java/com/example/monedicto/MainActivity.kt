@@ -1,12 +1,8 @@
 package com.example.monedicto
 
 import android.os.Bundle
-//import android.os.PersistableBundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-//import androidx.core.view.ViewCompat
-//import androidx.core.view.WindowInsetsCompat
-
+import android.view.View
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -21,21 +17,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         val navigationRail = findViewById<NavigationRailView>(R.id.navigationRail)
-
+        val btnMenuToolbar = findViewById<Button>(R.id.btnMenuToolbar)
         val headerView = navigationRail.headerView
         val btnLogo = headerView?.findViewById<Button>(R.id.btnLogo)
 
-        btnLogo?.setOnClickListener {
-            estaExpandido = !estaExpandido
-            if (estaExpandido) {
-                navigationRail.labelVisibilityMode = NavigationRailView.LABEL_VISIBILITY_LABELED
-            } else {
-                navigationRail.labelVisibilityMode = NavigationRailView.LABEL_VISIBILITY_UNLABELED
-            }
+        btnMenuToolbar.setOnClickListener {
+            btnMenuToolbar.visibility = View.GONE
+            navigationRail.visibility = View.VISIBLE
+        }
+
+        btnMenuToolbar.setOnClickListener {
+            btnMenuToolbar.visibility = View.GONE
+            navigationRail.visibility = View.VISIBLE
         }
 
         navigationRail.setOnItemSelectedListener { item ->
@@ -61,6 +58,12 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+    //Para que quede marcada el inicio como default
+    override fun onResume() {
+        super.onResume()
+        val navigationRail = findViewById<NavigationRailView>(R.id.navigationRail)
+        navigationRail.selectedItemId = R.id.rail_home
     }
 }
 

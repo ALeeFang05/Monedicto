@@ -10,7 +10,7 @@
         android:title="Ahorro" />
     <item
         android:id="@+id/rail_historial"
-        android:icon="@drawable/ic_finanzas"
+        android:icon="@drawable/ic_historial"
         android:title="Historial" />
     <item
         android:id="@+id/rail_encuesta"

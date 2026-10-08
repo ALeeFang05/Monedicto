@@ -1,20 +1,11 @@
-<!--
-  ~ Copyright (C) 2026 The Android Open Source Project
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="24dp" android:tint="#000000" android:viewportHeight="24" android:viewportWidth="24" android:width="24dp">
-        
-    <path android:fillColor="#FF000000" android:pathData="M17.6,11.48 L19.44,8.3a0.63,0.63 0,0 0,-1.09 -0.63l-1.88,3.24a11.43,11.43 0,0 0,-8.94 0L5.65,7.67a0.63,0.63 0,0 0,-1.09 0.63L6.4,11.48A10.81,10.81 0,0 0,1 20L23,20A10.81,10.81 0,0 0,17.6 11.48ZM7,17.25A1.25,1.25 0,1 1,8.25 16,1.25 1.25,0 0,1 7,17.25ZM17,17.25A1.25,1.25 0,1 1,18.25 16,1.25 1.25,0 0,1 17,17.25Z"/>
-    
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M23.45,54.55 Q21.55,52.6 20.2,50.5 Q14.15,49.25 9.45,44.55 Q3,38.1 3,29 L3,27 L3,25 Q3,15.9 9.45,9.45 Q15.9,3 25,3 Q34.1,3 40.55,9.45 Q42.45,11.35 43.8,13.5 Q49.85,14.75 54.55,19.45 Q60.2,25.1 60.9,32.8 L60.95,40.65 Q60.4,48.7 54.55,54.5 L54.5,54.55 Q48.1,61 39,61 Q29.9,61 23.45,54.55 M41,25 Q41,21.8 39.9,19.05 Q38.7,16.1 36.3,13.7 L35.8,13.2 Q31.25,9 25,9 Q18.4,9 13.7,13.65 L13.65,13.7 Q9,18.4 9,25 L9.1,27 Q9.7,32.35 13.7,36.3 L17,38.9 Q20.2,40.8 24.1,41 L25,41 Q31.6,41 36.3,36.3 Q40.25,32.35 40.9,27.05 L41,25 M55,35 Q55,28.4 50.3,23.7 L46.65,20.95 L46.9,22.8 L46.95,30.65 Q46.4,38.7 40.55,44.5 L40.5,44.55 Q36.95,48.1 32.6,49.7 Q35.55,51 39,51 Q45.6,51 50.3,46.3 Q54.25,42.35 54.9,37.05 L55,35"/>
 </vector>
