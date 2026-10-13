@@ -2,19 +2,36 @@ package com.example.monedicto
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.RatingBar
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-class EncuestaAct : AppCompatActivity(){
+class EncuestaAct : AppCompatActivity() {
+
+    private lateinit var editComentarios: TextInputEditText
+    private lateinit var btnCalcular: Button
+
+    // ⚠️ CONFIGURACIÓN DE RETROFIT: Apunta al localhost de tu computadora
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val apiService = retrofit.create(MonedictoApiService::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_encuesta)
 
-        //Boton para enviar los resultados
-        val btnCalcular = findViewById<Button>(R.id.btnCalcular)
+        // Conectar la casilla de comentarios del XML (Asegúrate de que este ID coincida con tu layout)
+        editComentarios = findViewById(R.id.editComentarios)
+        btnCalcular = findViewById(R.id.btnCalcular)
 
         btnCalcular.setOnClickListener {
             // 1. Verificamos que estén todas contestadas
@@ -23,19 +40,52 @@ class EncuestaAct : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            // 2. Calculamos los puntos totales
+            // 2. Calculamos los puntos totales del test
             val totalPuntos = calcularPuntuacion()
 
-            // 3. Evaluamos la puntuación según los rangos solicitados
+            // 3. Evaluamos según los rangos clínicos estandarizados del SOGS
             val diagnostico = when {
-                totalPuntos in 0..1 -> "Sin problemas con el juego"
-                totalPuntos in 2..5 -> "Potencial riesgo de adiccion"
-                else -> "Problemas de riesgo adiccion al juego"
+                totalPuntos in 0..2 -> "Sin problemas con el juego"
+                totalPuntos in 3..4 -> "Juego de riesgo"
+                else -> "Juego patológico (Posible ludopatía)"
             }
 
-            // 4. Mostramos el resultado junto con los puntos
-            val mensaje = "Puntos: $totalPuntos\nDiagnóstico: $diagnostico"
-            Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
+            // 4. Capturar la reflexión escrita por el usuario
+            val comentarioTexto = editComentarios.text.toString().trim()
+            val comentarioFinal = if (comentarioTexto.isEmpty()) "Sin comentarios registrados." else comentarioTexto
+
+            // 5. Armar el objeto para Ktor
+            val encuestaData = RegistroEncuestaDto(
+                satisfaccion = totalPuntos, // 'satisfaccion' es el nombre que le diste a la columna en Ktor
+                clasificacion = diagnostico,
+                comentarios = comentarioFinal
+            )
+
+            // Deshabilitar botón temporalmente para evitar clicks duplicados en la red
+            btnCalcular.isEnabled = false
+
+            // 6. ENVIAR DATOS A KTOR EN SEGUNDO PLANO
+            apiService.guardarEncuestaServidor(encuestaData).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    btnCalcular.isEnabled = true
+
+                    if (response.isSuccessful) {
+                        val mensajeExito = "Puntos: $totalPuntos\nDiagnóstico: $diagnostico\n\n¡Resultados sincronizados con éxito!"
+                        Toast.makeText(this@EncuestaAct, mensajeExito, Toast.LENGTH_LONG).show()
+
+                        // Opcional: Limpiar el campo de texto e indicar éxito regresando a la pantalla anterior
+                        editComentarios.text?.clear()
+                        finish()
+                    } else {
+                        Toast.makeText(this@EncuestaAct, "Error en el servidor backend: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    btnCalcular.isEnabled = true
+                    Toast.makeText(this@EncuestaAct, "Fallo de conexión a la API: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 
@@ -57,7 +107,6 @@ class EncuestaAct : AppCompatActivity(){
         )
     }
 
-    // Función para validar que ningún grupo esté sin selección (-1 indica que no hay nada seleccionado)
     private fun preguntasNulas(): Boolean {
         for ((grupo, _) in obtenerRespuestas()) {
             if (grupo == null || grupo.checkedRadioButtonId == -1) {
@@ -67,16 +116,13 @@ class EncuestaAct : AppCompatActivity(){
         return true
     }
 
-    // Función para sumar un punto por cada "Sí"
     private fun calcularPuntuacion(): Int {
         var totalPuntos = 0
-
         for ((grupo, idSi) in obtenerRespuestas()) {
             if (grupo?.checkedRadioButtonId == idSi) {
                 totalPuntos++
             }
         }
-
         return totalPuntos
     }
 }

@@ -7,7 +7,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 import kotlin.math.roundToLong
 
@@ -23,203 +30,152 @@ class FinanzasAct : AppCompatActivity() {
     private lateinit var txtTotalAhorrado: TextView
     private lateinit var btnGuardarAhorro: Button
 
-    private val formatoMoneda =
-        NumberFormat.getCurrencyInstance(Locale("es", "MX"))
+    // 🛠️ SE AGREGAN AQUÍ LAS 3 NUEVAS DECLARACIONES:
+    private lateinit var txtInfoMetas: TextView
+    private lateinit var txtFechaInicioAhorro: TextView
+    private lateinit var txtFechaFinAhorro: TextView
+
+    private val formatoMoneda = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
+    private val formatoFecha = SimpleDateFormat("dd / MMM / yyyy", Locale("es", "MX"))
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val apiService = retrofit.create(MonedictoApiService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_finanzas)
 
-        // CONECTAR ELEMENTOS DEL XML
-
+        // CONECTAR ELEMENTOS DEL XML EXISTENTES
         editConcepto = findViewById(R.id.editConcepto)
         editMonto = findViewById(R.id.editMonto)
         editTiempo = findViewById(R.id.editTiempo)
-
         radioMeses = findViewById(R.id.radioMeses)
         radioAnios = findViewById(R.id.radioAnios)
-
         txtTotalAhorrado = findViewById(R.id.txtTotalAhorrado)
-
         btnGuardarAhorro = findViewById(R.id.btnGuardarAhorro)
 
-
-        // MOSTRAR EL TOTAL QUE YA ESTABA GUARDADO
+        // 🛠️ SE ENLAZAN AQUÍ EN EL ONCREATE CON SUS IDS DEL XML:
+        txtInfoMetas = findViewById(R.id.txtInfoMetas)
+        txtFechaInicioAhorro = findViewById(R.id.txtFechaInicioAhorro)
+        txtFechaFinAhorro = findViewById(R.id.txtFechaFinAhorro)
 
         mostrarTotal()
 
-
-        // CUANDO SE PRESIONA EL BOTÓN
-
         btnGuardarAhorro.setOnClickListener {
-
             guardarAhorro()
         }
     }
 
-
     private fun guardarAhorro() {
-
         val concepto = editConcepto.text.toString().trim()
-
         val montoTexto = editMonto.text.toString().trim()
-
         val tiempoTexto = editTiempo.text.toString().trim()
 
-
-        // VALIDAR CONCEPTO
-
         if (concepto.isEmpty()) {
-
             editConcepto.error = "Escribe un concepto"
-
             editConcepto.requestFocus()
-
             return
         }
-
-
-        // VALIDAR MONTO
 
         val monto = montoTexto.toDoubleOrNull()
-
         if (monto == null || monto <= 0) {
-
             editMonto.error = "Ingresa un monto válido"
-
             editMonto.requestFocus()
-
             return
         }
-
-
-        // VALIDAR TIEMPO
 
         val tiempo = tiempoTexto.toIntOrNull()
-
         if (tiempo == null || tiempo <= 0) {
-
             editTiempo.error = "Ingresa un tiempo válido"
-
             editTiempo.requestFocus()
-
             return
         }
 
+        val periodo = if (radioMeses.isChecked) "meses" else "años"
 
-        val periodo = if (radioMeses.isChecked) {
-            "meses"
+        val calendario = Calendar.getInstance()
+        val fechaInicioTexto = formatoFecha.format(calendario.time)
+
+        if (radioMeses.isChecked) {
+            calendario.add(Calendar.MONTH, tiempo)
         } else {
-            "años"
+            calendario.add(Calendar.YEAR, tiempo)
         }
+        val fechaFinTexto = formatoFecha.format(calendario.time)
+        val montoMetaSimulado = monto * 3.0
 
+        val requestData = AhorroPostRequest(
+            concepto = concepto,
+            monto = monto,
+            montoMeta = montoMetaSimulado,
+            fechaInicio = fechaInicioTexto,
+            fechaFin = fechaFinTexto
+        )
 
-        /*
-         * GUARDAMOS EL DINERO EN CENTAVOS
-         *
-         * Ejemplo:
-         *
-         * $500.00 = 50000 centavos
-         *
-         * Esto evita problemas con decimales.
-         */
+        btnGuardarAhorro.isEnabled = false
 
-        val nuevoMontoCentavos =
-            (monto * 100).roundToLong()
+        apiService.guardarAhorroServidor(requestData).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                btnGuardarAhorro.isEnabled = true
+                if (response.isSuccessful) {
+                    // Pasamos las fechas calculadas a la función local para refrescar el diseño
+                    actualizarProgresoLocal(monto, concepto, tiempo, periodo, fechaInicioTexto, fechaFinTexto)
+                } else {
+                    Toast.makeText(this@FinanzasAct, "Error en el servidor: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            }
 
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                btnGuardarAhorro.isEnabled = true
+                Toast.makeText(this@FinanzasAct, "Fallo de conexión: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
-        val preferencias =
-            getSharedPreferences(
-                "MONEDICTO_AHORROS",
-                MODE_PRIVATE
-            )
+    private fun actualizarProgresoLocal(
+        monto: Double,
+        concepto: String,
+        tiempo: Int,
+        periodo: String,
+        fechaInicioTexto: String, // Recibimos las fechas
+        fechaFinTexto: String
+    ) {
+        val nuevoMontoCentavos = (monto * 100).roundToLong()
+        val preferencias = getSharedPreferences("MONEDICTO_AHORROS", MODE_PRIVATE)
 
+        val totalAnterior = preferencias.getLong("TOTAL_AHORRADO", 0L)
+        val nuevoTotal = totalAnterior + nuevoMontoCentavos
 
-        // LEER TOTAL ANTERIOR
+        preferencias.edit().putLong("TOTAL_AHORRADO", nuevoTotal).apply()
 
-        val totalAnterior =
-            preferencias.getLong(
-                "TOTAL_AHORRADO",
-                0L
-            )
+        // MOSTRAR DATOS ACTUALIZADOS EN LA TARJETA
+        txtTotalAhorrado.text = formatoMoneda.format(nuevoTotal / 100.0)
 
-
-        // SUMAR NUEVO DEPÓSITO
-
-        val nuevoTotal =
-            totalAnterior + nuevoMontoCentavos
-
-
-        // GUARDAR NUEVO TOTAL
-
-        preferencias
-            .edit()
-            .putLong(
-                "TOTAL_AHORRADO",
-                nuevoTotal
-            )
-            .apply()
-
-
-        // MOSTRAR TOTAL ACTUALIZADO
-
-        txtTotalAhorrado.text =
-            formatoMoneda.format(
-                nuevoTotal / 100.0
-            )
-
-
-        // MENSAJE
+        // 🛠️ AQUÍ SE REFRESCAN LAS NUEVAS ETIQUETAS VISUALES:
+        txtInfoMetas.text = "Meta Estimada: " + formatoMoneda.format(monto * 3.0)
+        txtFechaInicioAhorro.text = fechaInicioTexto
+        txtFechaFinAhorro.text = fechaFinTexto
 
         Toast.makeText(
             this,
-            "Ahorro guardado: $concepto - " +
-                    formatoMoneda.format(monto) +
-                    " durante $tiempo $periodo",
+            "¡Guardado en base de datos!: $concepto",
             Toast.LENGTH_LONG
         ).show()
 
-
-        // LIMPIAR TODAS LAS CASILLAS
-
         editConcepto.text?.clear()
-
         editMonto.text?.clear()
-
         editTiempo.text?.clear()
-
-
-        // REGRESAR A MESES
-
         radioMeses.isChecked = true
-
-
-        // PONER CURSOR OTRA VEZ EN CONCEPTO
-
         editConcepto.requestFocus()
     }
 
-
     private fun mostrarTotal() {
-
-        val preferencias =
-            getSharedPreferences(
-                "MONEDICTO_AHORROS",
-                MODE_PRIVATE
-            )
-
-
-        val totalGuardado =
-            preferencias.getLong(
-                "TOTAL_AHORRADO",
-                0L
-            )
-
-
-        txtTotalAhorrado.text =
-            formatoMoneda.format(
-                totalGuardado / 100.0
-            )
+        val preferencias = getSharedPreferences("MONEDICTO_AHORROS", MODE_PRIVATE)
+        val totalGuardado = preferencias.getLong("TOTAL_AHORRADO", 0L)
+        txtTotalAhorrado.text = formatoMoneda.format(totalGuardado / 100.0)
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_vertical"
+    android:background="#FAF7FA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monedicto"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#6C4AB6"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inicia sesión para controlar tus impulsos y finanzas"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:textAlignment="center"/>
+
+    <!-- CORREO ELECTRÓNICO -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="#6C4AB6"
+        app:hintTextColor="#6C4AB6">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editLoginEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- CONTRASEÑA -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="#6C4AB6"
+        app:hintTextColor="#6C4AB6"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#6C4AB6">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editLoginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- BOTÓN INICIAR SESIÓN -->
+    <Button
+        android:id="@+id/btnLoginIngresar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:text="Iniciar Sesión"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:backgroundTint="#6C4AB6"
+        android:layout_marginBottom="16dp"
+        app:cornerRadius="12dp"/>
+
+    <!-- ENLACE A REGISTRO -->
+    <TextView
+        android:id="@+id/txtLoginIrARegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿No tienes una cuenta? Regístrate aquí"
+        android:textColor="#6C4AB6"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"/>
+
+</LinearLayout>

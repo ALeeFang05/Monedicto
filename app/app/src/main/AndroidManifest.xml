@@ -10,17 +10,31 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Monedicto">
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.Monedicto"
+        tools:targetApi="m">
+
+        <!-- Permite internet -->
+        <uses-permission
+            android:name="android.permission.INTERNET" />
+
+        <!-- Pantalla de Inicio por defecto (Login) -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:name=".LoginAct"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Tu Dashboard u otras pantallas se quedan registradas aca -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistroAct"
+            android:exported="false" />
         <activity
             android:name=".FinanzasAct"
             android:exported="false" />

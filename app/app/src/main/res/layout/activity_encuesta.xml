@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://android.com"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -440,17 +441,45 @@
                 android:text="No" />
         </RadioGroup>
 
-        <!-- BOTÓN ENVIAR -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Bitácora de auto-reflexión:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#6C4AB6"
+            app:hintTextColor="#6C4AB6">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editComentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="¿Cómo te sientes hoy respecto al juego o tus metas?"
+                android:inputType="textLongMessage"
+                android:gravity="top"
+                android:lines="3" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 🚀 BOTÓN DE ACCIÓN PARA MANDAR A KTOR -->
         <Button
             android:id="@+id/btnCalcular"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Enviar"
-            android:textSize="18sp" />
+            android:layout_height="54dp"
+            android:text="Enviar Evaluación SOGS"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#6C4AB6"
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 </ScrollView>

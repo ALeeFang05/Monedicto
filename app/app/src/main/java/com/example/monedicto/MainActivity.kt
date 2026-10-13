@@ -1,69 +1,108 @@
 package com.example.monedicto
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import android.content.Intent
-import android.widget.Button
-import com.google.android.material.navigationrail.NavigationRailView
+import android.os.Bundle
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.text.NumberFormat
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
-    private var estaExpandido = false
+    // Vistas de la tarjeta de finanzas del XML principal
+    private lateinit var txtMontoAhorrado: TextView
+    private lateinit var txtMetaAhorro: TextView
+    private lateinit var txtFechaInicio: TextView
+    private lateinit var txtFechaFin: TextView
+    private lateinit var progresoAhorro: LinearProgressIndicator
+
+    // Vistas de la tarjeta de ludopatía SOGS del XML principal
+    private lateinit var txtResultadoSogs: TextView
+    private lateinit var txtClasificacionSogs: TextView
+    private lateinit var txtTotalEncuestas: TextView
+    private lateinit var txtUltimaReflexion: TextView
+
+    private val formatoMoneda = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val apiService = retrofit.create(MonedictoApiService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val navigationRail = findViewById<NavigationRailView>(R.id.navigationRail)
-        val btnMenuToolbar = findViewById<Button>(R.id.btnMenuToolbar)
-        val headerView = navigationRail.headerView
-        val btnLogo = headerView?.findViewById<Button>(R.id.btnLogo)
+        // 1. CONECTAR COMPONENTES DEL DASHBOARD (Asegúrate de que coincidan estos IDs con tu layout principal)
+        txtMontoAhorrado = findViewById(R.id.txtMontoAhorrado)
+        txtMetaAhorro = findViewById(R.id.txtMetaAhorro)
+        txtFechaInicio = findViewById(R.id.txtFechaInicio)
+        txtFechaFin = findViewById(R.id.txtFechaFin)
+        progresoAhorro = findViewById(R.id.progresoAhorro)
 
-        btnMenuToolbar.setOnClickListener {
-            btnMenuToolbar.visibility = View.GONE
-            navigationRail.visibility = View.VISIBLE
-        }
+        txtResultadoSogs = findViewById(R.id.txtResultadoSogs)
+        txtClasificacionSogs = findViewById(R.id.txtClasificacionSogs)
+        txtTotalEncuestas = findViewById(R.id.txtTotalEncuestas)
+        txtUltimaReflexion = findViewById(R.id.txtUltimaReflexion)
 
-        btnMenuToolbar.setOnClickListener {
-            btnMenuToolbar.visibility = View.GONE
-            navigationRail.visibility = View.VISIBLE
-        }
-
-        navigationRail.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.rail_home -> {
-                    true
-                }
-
-                R.id.rail_finanzas -> {
-                    startActivity(Intent(this, FinanzasAct::class.java))
-                    true
-                }
-
-                R.id.rail_encuesta -> {
-                    startActivity(Intent(this, EncuestaAct::class.java))
-                    true
-                }
-
-                R.id.rail_historial -> {
-                    Toast.makeText(this, "Abriendo Historial...", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
+        // Aquí mantienes la lógica que ya tenías para abrir FinanzasAct o EncuestaAct con tus botones...
     }
-    //Para que quede marcada el inicio como default
+
     override fun onResume() {
         super.onResume()
-        val navigationRail = findViewById<NavigationRailView>(R.id.navigationRail)
-        navigationRail.selectedItemId = R.id.rail_home
+        // Cada vez que la pantalla vuelva a estar al frente, cargamos la información más fresca de la BD
+        cargarDatosDashboard()
+    }
+
+    private fun cargarDatosDashboard() {
+        // 2. RECUPERAR EL ID DE USUARIO LOGUEADO
+        val preferencias = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
+        val usuarioId = preferencias.getInt("USUARIO_ID", -1)
+
+        // Si por alguna razón expiró la sesión o no hay ID, lo regresamos al Login por protección
+        if (usuarioId == -1) {
+            val intent = Intent(this, LoginAct::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        // 3. CONSULTAR LA API EN SEGUNDO PLANO
+        apiService.obtenerDashboard(usuarioId).enqueue(object : Callback<DashboardResponse> {
+            override fun onResponse(call: Call<DashboardResponse>, response: Response<DashboardResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val datos = response.body()!!
+
+                    // 4. PINTAR LA INFORMACIÓN FINANCIERA EN EL UI
+                    txtMontoAhorrado.text = formatoMoneda.format(datos.ahorro.montoActual)
+                    txtMetaAhorro.text = "Meta: ${formatoMoneda.format(datos.ahorro.montoMeta)}"
+                    txtFechaInicio.text = datos.ahorro.fechaInicio
+                    txtFechaFin.text = datos.ahorro.fechaFin
+                    progresoAhorro.progress = datos.ahorro.porcentajeProgreso
+
+                    // 5. PINTAR LOS INDICADORES DE LUDOPATÍA SOGS EN EL UI
+                    txtResultadoSogs.text = "${datos.encuestaSogs.puntuacionTotal} / 13 Puntos"
+                    txtClasificacionSogs.text = datos.encuestaSogs.clasificacion
+                    txtTotalEncuestas.text = "Evaluaciones hechas: ${datos.encuestaSogs.totalOpinionesRealizadas}"
+                    txtUltimaReflexion.text = "\"${datos.encuestaSogs.ultimoComentario}\""
+                } else {
+                    Toast.makeText(this@MainActivity, "Error al procesar el Dashboard: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<DashboardResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error de conexión: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
 
