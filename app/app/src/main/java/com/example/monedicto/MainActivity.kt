@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.navigationrail.NavigationRailView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,6 +16,8 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
+    // Menu lateral
+    private lateinit var navigationRail: NavigationRailView
 
     // Vistas de la tarjeta de finanzas del XML principal
     private lateinit var txtMontoAhorrado: TextView
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 1. CONECTAR COMPONENTES DEL DASHBOARD (Asegúrate de que coincidan estos IDs con tu layout principal)
+        // 1. CONECTAR COMPONENTES DEL DASHBOARD
         txtMontoAhorrado = findViewById(R.id.txtMontoAhorrado)
         txtMetaAhorro = findViewById(R.id.txtMetaAhorro)
         txtFechaInicio = findViewById(R.id.txtFechaInicio)
@@ -54,13 +57,42 @@ class MainActivity : AppCompatActivity() {
         txtTotalEncuestas = findViewById(R.id.txtTotalEncuestas)
         txtUltimaReflexion = findViewById(R.id.txtUltimaReflexion)
 
-        // Aquí mantienes la lógica que ya tenías para abrir FinanzasAct o EncuestaAct con tus botones...
+        navigationRail = findViewById(R.id.navigationRail)
+        navigationRail.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                // ⚠️ NOTA: Asegúrate de que estos IDs coincidan con los que pusiste en 'res/menu/menu_rail_iconos.xml'
+                R.id.rail_home -> {
+                    // Ya estás en el Dashboard principal, no es necesario abrir otra actividad
+                    Toast.makeText(this, "Ya estás en el Inicio", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.rail_finanzas -> {
+                    // Abre la pantalla para registrar depósitos y metas
+                    val intent = Intent(this, FinanzasAct::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.rail_encuesta -> {
+                    // Abre el test diagnóstico de control de impulsos (13 preguntas)
+                    val intent = Intent(this, EncuestaAct::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.rail_historial -> {
+                    Toast.makeText(this, "Próximamente: Historial de recaídas", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         // Cada vez que la pantalla vuelva a estar al frente, cargamos la información más fresca de la BD
         cargarDatosDashboard()
+        navigationRail.selectedItemId = R.id.rail_home
+
     }
 
     private fun cargarDatosDashboard() {
