@@ -32,7 +32,8 @@ data class AhorroPostRequest(
     val monto: Double,
     val montoMeta: Double,
     val fechaInicio: String,
-    val fechaFin: String
+    val fechaFin: String,
+    val usuarioId: Int
 )
 data class RegistroEncuestaDto(
     val satisfaccion: Int,        // Mapea la puntuación total (0 a 20)
@@ -56,7 +57,7 @@ data class LoginResponseDto(
 
 // 2. Interfaz de endpoints para Retrofit
 interface MonedictoApiService {
-    @POST("api/finanzas/ahorros")
+    @POST("api/finanzas/ahorrar")
     fun guardarAhorroServidor(@Body request: AhorroPostRequest): Call<Void>
 
     @POST("api/encuesta")

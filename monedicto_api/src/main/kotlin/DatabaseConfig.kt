@@ -39,10 +39,10 @@ object EncuestasTable : Table("encuestas") {
 fun initDatabase() {
     // ⚠️ REEMPLAZA: 'localhost' por la IP de tu PC si es necesario, e ingresa tu usuario y contraseña de SQL Server
     Database.connect(
-        url = "jdbc:sqlserver://localhost:1433;databaseName=monedicto_db;encrypt=false;trustServerCertificate=true;",
+        url = "jdbc:sqlserver://localhost:1433;databaseName=monedicto;encrypt=false;trustServerCertificate=true;",
         driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-        user = "sa",
-        password = "12345"
+        user = "Chang",
+        password = "ch1234"
     )
 
     // Genera las tablas automáticamente en SQL Server

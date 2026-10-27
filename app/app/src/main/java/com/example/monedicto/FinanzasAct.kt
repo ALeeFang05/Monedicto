@@ -39,7 +39,7 @@ class FinanzasAct : AppCompatActivity() {
     private val formatoFecha = SimpleDateFormat("dd / MMM / yyyy", Locale("es", "MX"))
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2")
+        .baseUrl("http://192.168.1.218:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -108,12 +108,22 @@ class FinanzasAct : AppCompatActivity() {
         val fechaFinTexto = formatoFecha.format(calendario.time)
         val montoMetaSimulado = monto * 3.0
 
+        //OBTENEMOS EL ID DEL USUARIO USANDO LA MISMA LLAVE DEL LOGIN
+        val preferencias = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
+        val idUsuarioActual = preferencias.getInt("USUARIO_ID", -1) // 👈 Debe decir "USUARIO_ID" exactamente
+
+        if (idUsuarioActual == -1) {
+            Toast.makeText(this, "Error: No se encontró la sesión del usuario. Inicia sesión de nuevo.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val requestData = AhorroPostRequest(
             concepto = concepto,
             monto = monto,
             montoMeta = montoMetaSimulado,
             fechaInicio = fechaInicioTexto,
-            fechaFin = fechaFinTexto
+            fechaFin = fechaFinTexto,
+            usuarioId = idUsuarioActual
         )
 
         btnGuardarAhorro.isEnabled = false

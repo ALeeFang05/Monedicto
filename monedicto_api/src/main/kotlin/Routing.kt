@@ -19,7 +19,8 @@ data class RegistroAhorroDto(
     val monto: Double,
     val montoMeta: Double,
     val fechaInicio: String,
-    val fechaFin: String
+    val fechaFin: String,
+    val usuarioId : Int
 )
 
 // 📝 DTO Actualizado para la Encuesta SOGS de Ludopatía
@@ -111,6 +112,7 @@ fun Application.configureRouting() {
                             it[montoMeta] = recibidos.montoMeta
                             it[fechaInicio] = recibidos.fechaInicio
                             it[fechaFin] = recibidos.fechaFin
+                            it[usuarioID] = recibidos.usuarioId
                         }
                     }
                     call.respond(HttpStatusCode.Created, "Ahorro guardado en SQL Server")

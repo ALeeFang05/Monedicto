@@ -13,7 +13,13 @@ fun main() {
 fun Application.module() {
     configureSerialization() // Habilita el traductor de JSON
 
-    initDatabase()           // Conecta a SQL Server y genera las tablas
+    try {
+        initDatabase()           // Conecta a SQL Server y genera las tablas
+        println("✅ ¡Conexión exitosa y tablas creadas en SQL Server!")
+    } catch (e: Exception) {
+        println("❌ ERROR DE CONEXIÓN A SQL SERVER: ${e.localizedMessage}")
+        e.printStackTrace()
+    }
 
     configureRouting()       // Activa las rutas/endpoints para Android
 }

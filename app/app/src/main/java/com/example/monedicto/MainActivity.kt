@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val formatoMoneda = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2")
+        .baseUrl("http://192.168.1.218:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
