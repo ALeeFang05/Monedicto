@@ -15,6 +15,7 @@ import org.jetbrains.exposed.sql.and
 // 💳 DTO Actualizado para Finanzas (Sincronizado con Android)
 @Serializable
 data class RegistroAhorroDto(
+    val usuarioID: Int,
     val concepto: String,
     val monto: Double,
     val montoMeta: Double,
@@ -26,6 +27,7 @@ data class RegistroAhorroDto(
 // 📝 DTO Actualizado para la Encuesta SOGS de Ludopatía
 @Serializable
 data class RegistroEncuestaDto(
+    val usuarioID: Int,
     val satisfaccion: Int,        // Aquí mapeamos la puntuación del test SOGS (0 a 20)
     val clasificacion: String,    // "Juego Patológico", "Juego de Riesgo", etc.
     val comentarios: String
@@ -53,12 +55,19 @@ fun Application.configureRouting() {
             // 1. GET: http://localhost:8080/api/dashboard (Para alimentar tu pantalla principal)
             get("/dashboard") {
                 try {
+                    val usuarioIdParam = call.request.queryParameters["usuarioId"]?.toIntOrNull()
+
+                    if (usuarioIdParam == null) {
+                        call.respond(HttpStatusCode.BadRequest, "Falta el parámetro usuarioId")
+                        return@get
+                    }
                     var ahorroDto: AhorroDto? = null
                     var sogsDto: SogsDto? = null
 
                     transaction {
                         // Leer último ahorro de SQL Server
                         val ultimoAhorro = AhorrosTable.selectAll()
+                            .where { AhorrosTable.usuarioID eq usuarioIdParam }
                             .orderBy(AhorrosTable.id to org.jetbrains.exposed.sql.SortOrder.DESC)
                             .limit(1)
                             .singleOrNull()
@@ -78,22 +87,25 @@ fun Application.configureRouting() {
                         }
 
                         // Leer historial de encuestas SOGS
-                        val todasLasEncuestas = EncuestasTable.selectAll().toList()
-                        val ultimaEncuesta = todasLasEncuestas.lastOrNull()
+                        val encuestasUsuario = EncuestasTable.selectAll()
+                            .where { EncuestasTable.usuarioID eq usuarioIdParam }
+                            .toList()
+
+                        val ultimaEncuesta = encuestasUsuario.lastOrNull()
 
                         if (ultimaEncuesta != null) {
                             sogsDto = SogsDto(
                                 puntuacionTotal = ultimaEncuesta[EncuestasTable.resultado],
                                 clasificacion = ultimaEncuesta[EncuestasTable.clasificacion],
-                                totalOpinionesRealizadas = todasLasEncuestas.size,
+                                totalOpinionesRealizadas = encuestasUsuario.size,
                                 ultimoComentario = ultimaEncuesta[EncuestasTable.comentarios]
                             )
                         }
                     }
 
                     // Valores por defecto si la base de datos está vacía
-                    val finalAhorro = ahorroDto ?: AhorroDto(5000.0, 3000.0, 60, "01 / Ene / 2026", "31 / Dic / 2026")
-                    val finalSogs = sogsDto ?: SogsDto(4, "Juego de Riesgo", 24, "Sin comentarios aún.")
+                    val finalAhorro = ahorroDto ?: AhorroDto(0.0, 0.0, 0, "-- / -- / ----", "-- / -- / ----")
+                    val finalSogs = sogsDto ?: SogsDto(0, "Sin evaluaciones", 0, "No hay reflexiones registradas todavía.")
 
                     call.respond(HttpStatusCode.OK, DashboardResponse(finalAhorro, finalSogs))
                 } catch (e: Exception) {
@@ -107,6 +119,7 @@ fun Application.configureRouting() {
                     val recibidos = call.receive<RegistroAhorroDto>()
                     transaction {
                         AhorrosTable.insert {
+                            it[usuarioID] = recibidos.usuarioID
                             it[concepto] = recibidos.concepto
                             it[monto] = recibidos.monto
                             it[montoMeta] = recibidos.montoMeta
@@ -127,6 +140,7 @@ fun Application.configureRouting() {
                     val recibidos = call.receive<RegistroEncuestaDto>()
                     transaction {
                         EncuestasTable.insert {
+                            it[usuarioID] = recibidos.usuarioID
                             it[resultado] = recibidos.satisfaccion
                             it[clasificacion] = recibidos.clasificacion
                             it[comentarios] = recibidos.comentarios
@@ -155,7 +169,6 @@ fun Application.configureRouting() {
             post("/usuarios/login") {
                 try {
                     val credenciales = call.receive<LoginRequestDto>()
-
                     var usuarioValido: LoginResponseDto? = null
 
                     transaction {

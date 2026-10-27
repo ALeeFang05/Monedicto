@@ -12,6 +12,7 @@ fun main() {
 
 fun Application.module() {
     configureSerialization() // Habilita el traductor de JSON
+<<<<<<< HEAD
 
     try {
         initDatabase()           // Conecta a SQL Server y genera las tablas
@@ -21,5 +22,8 @@ fun Application.module() {
         e.printStackTrace()
     }
 
+=======
+    initDatabase()           // Conecta a SQL Server y genera las tablas
+>>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
     configureRouting()       // Activa las rutas/endpoints para Android
 }

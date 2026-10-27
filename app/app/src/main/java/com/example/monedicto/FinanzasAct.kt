@@ -30,7 +30,6 @@ class FinanzasAct : AppCompatActivity() {
     private lateinit var txtTotalAhorrado: TextView
     private lateinit var btnGuardarAhorro: Button
 
-    // 🛠️ SE AGREGAN AQUÍ LAS 3 NUEVAS DECLARACIONES:
     private lateinit var txtInfoMetas: TextView
     private lateinit var txtFechaInicioAhorro: TextView
     private lateinit var txtFechaFinAhorro: TextView
@@ -38,8 +37,13 @@ class FinanzasAct : AppCompatActivity() {
     private val formatoMoneda = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
     private val formatoFecha = SimpleDateFormat("dd / MMM / yyyy", Locale("es", "MX"))
 
+    // Asegúrate de poner tu IP completa en lugar del localhost y el puerto :8080/
     private val retrofit = Retrofit.Builder()
+<<<<<<< HEAD
         .baseUrl("http://192.168.1.218:8080/")
+=======
+        .baseUrl("http://172.16.132.20:8080")
+>>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -49,7 +53,6 @@ class FinanzasAct : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finanzas)
 
-        // CONECTAR ELEMENTOS DEL XML EXISTENTES
         editConcepto = findViewById(R.id.editConcepto)
         editMonto = findViewById(R.id.editMonto)
         editTiempo = findViewById(R.id.editTiempo)
@@ -58,7 +61,6 @@ class FinanzasAct : AppCompatActivity() {
         txtTotalAhorrado = findViewById(R.id.txtTotalAhorrado)
         btnGuardarAhorro = findViewById(R.id.btnGuardarAhorro)
 
-        // 🛠️ SE ENLAZAN AQUÍ EN EL ONCREATE CON SUS IDS DEL XML:
         txtInfoMetas = findViewById(R.id.txtInfoMetas)
         txtFechaInicioAhorro = findViewById(R.id.txtFechaInicioAhorro)
         txtFechaFinAhorro = findViewById(R.id.txtFechaFinAhorro)
@@ -71,6 +73,16 @@ class FinanzasAct : AppCompatActivity() {
     }
 
     private fun guardarAhorro() {
+        //  RECUPERAR EL ID DEL USUARIO DE LA SESIÓN ACTIVA
+        val preferenciasSesion = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
+        val idUsuarioActivo = preferenciasSesion.getInt("USUARIO_ID", -1)
+
+        // Medida de seguridad preventiva por si falla la sesión
+        if (idUsuarioActivo == -1) {
+            Toast.makeText(this, "Error de sesión: Por favor reingresa a la aplicación.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val concepto = editConcepto.text.toString().trim()
         val montoTexto = editMonto.text.toString().trim()
         val tiempoTexto = editTiempo.text.toString().trim()
@@ -108,6 +120,7 @@ class FinanzasAct : AppCompatActivity() {
         val fechaFinTexto = formatoFecha.format(calendario.time)
         val montoMetaSimulado = monto * 3.0
 
+<<<<<<< HEAD
         //OBTENEMOS EL ID DEL USUARIO USANDO LA MISMA LLAVE DEL LOGIN
         val preferencias = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
         val idUsuarioActual = preferencias.getInt("USUARIO_ID", -1) // 👈 Debe decir "USUARIO_ID" exactamente
@@ -117,7 +130,11 @@ class FinanzasAct : AppCompatActivity() {
             return
         }
 
+=======
+        // INYECTAR EL usuarioId EN EL PAQUETE JSON ENVIADO A KTOR
+>>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
         val requestData = AhorroPostRequest(
+            usuarioID = idUsuarioActivo, // Enlazamos el depósito a este perfil específico
             concepto = concepto,
             monto = monto,
             montoMeta = montoMetaSimulado,
@@ -132,7 +149,6 @@ class FinanzasAct : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 btnGuardarAhorro.isEnabled = true
                 if (response.isSuccessful) {
-                    // Pasamos las fechas calculadas a la función local para refrescar el diseño
                     actualizarProgresoLocal(monto, concepto, tiempo, periodo, fechaInicioTexto, fechaFinTexto)
                 } else {
                     Toast.makeText(this@FinanzasAct, "Error en el servidor: ${response.code()}", Toast.LENGTH_SHORT).show()
@@ -151,28 +167,31 @@ class FinanzasAct : AppCompatActivity() {
         concepto: String,
         tiempo: Int,
         periodo: String,
-        fechaInicioTexto: String, // Recibimos las fechas
+        fechaInicioTexto: String,
         fechaFinTexto: String
     ) {
         val nuevoMontoCentavos = (monto * 100).roundToLong()
-        val preferencias = getSharedPreferences("MONEDICTO_AHORROS", MODE_PRIVATE)
+
+        // 🛠️ FILTRADO LOCAL: Cambiamos "MONEDICTO_AHORROS" general por uno único basado en el ID
+        val preferenciasSesion = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
+        val idUsuarioActivo = preferenciasSesion.getInt("USUARIO_ID", -1)
+
+        val preferencias = getSharedPreferences("MONEDICTO_AHORROS_USER_$idUsuarioActivo", MODE_PRIVATE)
 
         val totalAnterior = preferencias.getLong("TOTAL_AHORRADO", 0L)
         val nuevoTotal = totalAnterior + nuevoMontoCentavos
 
         preferencias.edit().putLong("TOTAL_AHORRADO", nuevoTotal).apply()
 
-        // MOSTRAR DATOS ACTUALIZADOS EN LA TARJETA
         txtTotalAhorrado.text = formatoMoneda.format(nuevoTotal / 100.0)
 
-        // 🛠️ AQUÍ SE REFRESCAN LAS NUEVAS ETIQUETAS VISUALES:
         txtInfoMetas.text = "Meta Estimada: " + formatoMoneda.format(monto * 3.0)
         txtFechaInicioAhorro.text = fechaInicioTexto
         txtFechaFinAhorro.text = fechaFinTexto
 
         Toast.makeText(
             this,
-            "¡Guardado en base de datos!: $concepto",
+            "¡Ahorro asignado a tu cuenta!: $concepto",
             Toast.LENGTH_LONG
         ).show()
 
@@ -184,7 +203,10 @@ class FinanzasAct : AppCompatActivity() {
     }
 
     private fun mostrarTotal() {
-        val preferencias = getSharedPreferences("MONEDICTO_AHORROS", MODE_PRIVATE)
+        val preferenciasSesion = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
+        val idUsuarioActivo = preferenciasSesion.getInt("USUARIO_ID", -1)
+
+        val preferencias = getSharedPreferences("MONEDICTO_AHORROS_USER_$idUsuarioActivo", MODE_PRIVATE)
         val totalGuardado = preferencias.getLong("TOTAL_AHORRADO", 0L)
         txtTotalAhorrado.text = formatoMoneda.format(totalGuardado / 100.0)
     }
