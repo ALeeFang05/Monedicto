@@ -4,6 +4,8 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.StdOutSqlLogger
 
 // Talba para Usuarios
 object UsuariosTable : Table("usuarios") {
@@ -32,21 +34,38 @@ object EncuestasTable : Table("encuestas") {
     val usuarioID = integer("usuario_ID").references(UsuariosTable.id)
     val resultado = integer("resultado")         // Puntuación del test SOGS de 0 a 20
     val clasificacion = varchar("clasificacion", 100) // "Sin problema", "Juego patológico", etc.
-    val comentarios = text("comentarios")        // Último comentario o reflexión
+    val comentarios = varchar("comentarios", 8000)        // Último comentario o reflexión
     override val primaryKey = PrimaryKey(id)
 }
 
 fun initDatabase() {
-    // ⚠️ REEMPLAZA: 'localhost' por la IP de tu PC si es necesario, e ingresa tu usuario y contraseña de SQL Server
-    Database.connect(
-        url = "jdbc:sqlserver://localhost:1433;databaseName=monedicto_db;encrypt=false;trustServerCertificate=true;",
-        driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-        user = "sa",
-        password = "12345"
-    )
+    System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    System.err.println("DEBUG: ENTRANDO A INITDATABASE TOTALMENTE EN VIVO")
+    System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
-    // Genera las tablas automáticamente en SQL Server
-    transaction {
-        SchemaUtils.create(UsuariosTable, AhorrosTable, EncuestasTable) //Aca se agregan las nuevas tablas que se vayen agregando
+    try {
+        Database.connect(
+            url = "jdbc:sqlserver://127.0.0.1:1433;database=monedicto_db;encrypt=false;trustServerCertificate=true;",
+            driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+            user = "sa",
+            password = "12345"
+        )
+
+        // 2. Forzamos la ejecución inmediata fuera del Logger normal
+        transaction {
+            addLogger(StdOutSqlLogger)
+            //SchemaUtils.drop(UsuariosTable, AhorrosTable, EncuestasTable)
+
+            SchemaUtils.create(UsuariosTable, AhorrosTable, EncuestasTable)
+            commit()
+        }
+
+        System.err.println("✅ ENHORABUENA: ¡Transacción completada en el motor SQL!")
+
+    } catch (error: Throwable) {
+        System.err.println("🛑 ERROR DETECTADO DIRECTAMENTE EN EL DRIVER DE SQL:")
+        error.printStackTrace()
+        // Esto obligará a la API a cerrarse con el error visible si falla
+        throw RuntimeException("Fallo crítico de base de datos", error)
     }
 }

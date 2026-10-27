@@ -20,6 +20,7 @@ data class AhorroDto(
 )
 
 data class SogsDto(
+    val usuarioID: Int,
     val puntuacionTotal: Int,
     val clasificacion: String,
     val totalOpinionesRealizadas: Int,
@@ -28,6 +29,7 @@ data class SogsDto(
 
 // 1. Objeto de transferencia idéntico a las columnas que espera AhorrosTable en Ktor
 data class AhorroPostRequest(
+    val usuarioID: Int,
     val concepto: String,
     val monto: Double,
     val montoMeta: Double,
@@ -35,6 +37,7 @@ data class AhorroPostRequest(
     val fechaFin: String
 )
 data class RegistroEncuestaDto(
+    val usuarioID: Int,
     val satisfaccion: Int,        // Mapea la puntuación total (0 a 20)
     val clasificacion: String,    // "Juego Patológico", "Juego de Riesgo", etc.
     val comentarios: String

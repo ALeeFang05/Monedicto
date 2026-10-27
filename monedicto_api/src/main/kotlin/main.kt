@@ -12,8 +12,6 @@ fun main() {
 
 fun Application.module() {
     configureSerialization() // Habilita el traductor de JSON
-
     initDatabase()           // Conecta a SQL Server y genera las tablas
-
     configureRouting()       // Activa las rutas/endpoints para Android
 }

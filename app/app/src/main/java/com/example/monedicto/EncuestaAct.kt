@@ -19,7 +19,7 @@ class EncuestaAct : AppCompatActivity() {
 
     // ⚠️ CONFIGURACIÓN DE RETROFIT: Apunta al localhost de tu computadora
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2")
+        .baseUrl("http://172.16.132.20:8080")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -55,7 +55,16 @@ class EncuestaAct : AppCompatActivity() {
             val comentarioFinal = if (comentarioTexto.isEmpty()) "Sin comentarios registrados." else comentarioTexto
 
             // 5. Armar el objeto para Ktor
+            val preferenciasSesion = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
+            val idUsuarioActivo = preferenciasSesion.getInt("USUARIO_ID", -1)
+
+            if (idUsuarioActivo == -1) {
+                Toast.makeText(this, "Error de sesión: Vuelve a ingresar a la aplicación.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             val encuestaData = RegistroEncuestaDto(
+                usuarioID = idUsuarioActivo,
                 satisfaccion = totalPuntos, // 'satisfaccion' es el nombre que le diste a la columna en Ktor
                 clasificacion = diagnostico,
                 comentarios = comentarioFinal
@@ -73,9 +82,8 @@ class EncuestaAct : AppCompatActivity() {
                         val mensajeExito = "Puntos: $totalPuntos\nDiagnóstico: $diagnostico\n\n¡Resultados sincronizados con éxito!"
                         Toast.makeText(this@EncuestaAct, mensajeExito, Toast.LENGTH_LONG).show()
 
-                        // Opcional: Limpiar el campo de texto e indicar éxito regresando a la pantalla anterior
                         editComentarios.text?.clear()
-                        finish()
+                        finish() // Regresa al Dashboard de forma automática actualizando los datos
                     } else {
                         Toast.makeText(this@EncuestaAct, "Error en el servidor backend: ${response.code()}", Toast.LENGTH_SHORT).show()
                     }

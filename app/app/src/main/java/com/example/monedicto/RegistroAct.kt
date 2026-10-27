@@ -21,7 +21,7 @@ class RegistroAct : AppCompatActivity() {
 
     // ⚠️ CONFIGURACIÓN DE RETROFIT: Apunta al localhost de la PC desde el emulador
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2")
+        .baseUrl("http://172.16.132.20:8080")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

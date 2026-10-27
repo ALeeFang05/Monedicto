@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val formatoMoneda = NumberFormat.getCurrencyInstance(Locale("es", "MX"))
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2")
+        .baseUrl("http://172.16.132.20:8080")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -98,10 +98,10 @@ class MainActivity : AppCompatActivity() {
     private fun cargarDatosDashboard() {
         // 2. RECUPERAR EL ID DE USUARIO LOGUEADO
         val preferencias = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
-        val usuarioId = preferencias.getInt("USUARIO_ID", -1)
+        val usuarioID = preferencias.getInt("USUARIO_ID", -1)
 
         // Si por alguna razón expiró la sesión o no hay ID, lo regresamos al Login por protección
-        if (usuarioId == -1) {
+        if (usuarioID == -1) {
             val intent = Intent(this, LoginAct::class.java)
             startActivity(intent)
             finish()
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 3. CONSULTAR LA API EN SEGUNDO PLANO
-        apiService.obtenerDashboard(usuarioId).enqueue(object : Callback<DashboardResponse> {
+        apiService.obtenerDashboard(usuarioID).enqueue(object : Callback<DashboardResponse> {
             override fun onResponse(call: Call<DashboardResponse>, response: Response<DashboardResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val datos = response.body()!!

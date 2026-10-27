@@ -21,7 +21,7 @@ class LoginAct : AppCompatActivity() {
     private lateinit var txtLoginIrARegistro: TextView
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2")
+        .baseUrl("http://172.16.132.20:8080")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
