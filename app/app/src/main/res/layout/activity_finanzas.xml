@@ -67,6 +67,37 @@
                     android:textColor="#555555"
                     android:layout_marginTop="2dp"/>
 
+                <!-- PROGRESO DE LA META -->
+                <ProgressBar
+                    android:id="@+id/barraProgresoAhorro"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="16dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="#6C4AB6"
+                    android:progressBackgroundTint="#D1C4E9" />
+
+                <TextView
+                    android:id="@+id/txtPorcentajeAhorro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0% completado"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#6C4AB6"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/txtFaltanteAhorro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Establece tu meta para comenzar"
+                    android:textSize="13sp"
+                    android:textColor="#555555"
+                    android:layout_marginTop="4dp" />
+
                 <!-- Divisor intermedio -->
                 <View
                     android:layout_width="match_parent"
@@ -145,6 +176,23 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:clickable="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- META TOTAL A ALCANZAR (OPCIONAL SI YA EXISTE UNA) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#6C4AB6"
+            app:prefixText="$ ">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editMetaAhorro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Meta total deseada (si ya tienes una, opcional)"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 💰 SECCIÓN DE ENTRADA: MONTO -->
