@@ -20,4 +20,8 @@
         android:id="@+id/rail_simulacion"
         android:icon="@drawable/ic_simulacion"
         android:title="Simulacion" />
+    <item
+        android:id="@+id/rail_bloqueos"
+        android:icon="@android:drawable/ic_lock_idle_lock"
+        android:title="Bloqueos" />
 </menu>

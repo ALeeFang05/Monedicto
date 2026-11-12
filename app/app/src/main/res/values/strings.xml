@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">monedicto</string>
+    <string name="desc_accesibilidad">Servicio de Monedicto para bloquear aplicaciones de apuestas.</string>
 </resources>
