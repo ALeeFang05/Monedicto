@@ -17,18 +17,7 @@ class EncuestaAct : AppCompatActivity() {
     private lateinit var editComentarios: TextInputEditText
     private lateinit var btnCalcular: Button
 
-    // ⚠️ CONFIGURACIÓN DE RETROFIT: Apunta al localhost de tu computadora
-    private val retrofit = Retrofit.Builder()
-<<<<<<< HEAD
-        .baseUrl("http://192.168.1.218:8080/")
-=======
-        .baseUrl("http://172.16.132.20:8080")
->>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val apiService = retrofit.create(MonedictoApiService::class.java)
-
+    private val apiService = RetrofitClient.apiService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_encuesta)
@@ -108,14 +97,14 @@ class EncuestaAct : AppCompatActivity() {
             Pair(findViewById(R.id.rbG3), R.id.rb3_S),
             Pair(findViewById(R.id.rbG4), R.id.rb4_S),
             Pair(findViewById(R.id.rbG5), R.id.rb5_S),
-            Pair(findViewById(R.id.rbG6), R.id.rb6_S),
-            Pair(findViewById(R.id.rbG7), R.id.rb7_S),
-            Pair(findViewById(R.id.rbG8), R.id.rb8_S),
-            Pair(findViewById(R.id.rbG9), R.id.rb9_S),
-            Pair(findViewById(R.id.rbG10), R.id.rb10_S),
-            Pair(findViewById(R.id.rbG11), R.id.rb11_S),
-            Pair(findViewById(R.id.rbG12), R.id.rb12_S),
-            Pair(findViewById(R.id.rbG13), R.id.rb13_S)
+            Pair(findViewById(R.id.rbGB6), R.id.rb6_S),
+            Pair(findViewById(R.id.rbGB7), R.id.rb7_S),
+            Pair(findViewById(R.id.rbGB8), R.id.rb8_S),
+            Pair(findViewById(R.id.rbGB9), R.id.rb9_S),
+            Pair(findViewById(R.id.rbGB10), R.id.rb10_S),
+            Pair(findViewById(R.id.rbGB11), R.id.rb11_S),
+            Pair(findViewById(R.id.rbGB12), R.id.rb12_S),
+            Pair(findViewById(R.id.rbGB13), R.id.rb13_S)
         )
     }
 

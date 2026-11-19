@@ -21,15 +21,8 @@ class RegistroAct : AppCompatActivity() {
 
     // ⚠️ CONFIGURACIÓN DE RETROFIT: Apunta al localhost de la PC desde el emulador
     private val retrofit = Retrofit.Builder()
-<<<<<<< HEAD
-        .baseUrl("http://192.168.1.218:8080/")
-=======
-        .baseUrl("http://172.16.132.20:8080")
->>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
-    private val apiService = retrofit.create(MonedictoApiService::class.java)
+    private val apiService = RetrofitClient.apiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

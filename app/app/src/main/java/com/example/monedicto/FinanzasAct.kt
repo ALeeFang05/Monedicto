@@ -51,14 +51,7 @@ class FinanzasAct : AppCompatActivity() {
         SimpleDateFormat("dd / MMM / yyyy", Locale("es", "MX"))
 
     // CONEXIÓN CON SERVIDOR
-    // Cambia esta IP por la IP actual de tu servidor Ktor.
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.1.218:8080/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val apiService =
-        retrofit.create(MonedictoApiService::class.java)
+    private val apiService = RetrofitClient.apiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
