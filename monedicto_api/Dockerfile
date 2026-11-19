@@ -1,5 +1,5 @@
-# Etapa 1: Compilar el proyecto con Gradle y Java 17
-FROM gradle:8.5-jdk21 AS build
+# Etapa 1: Compilar el proyecto con Gradle 8.11+ y Java 21
+FROM gradle:8.11-jdk21 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle buildFatJar --no-daemon
