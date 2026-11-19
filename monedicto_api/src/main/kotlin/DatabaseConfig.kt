@@ -55,7 +55,7 @@ fun initDatabase() {
         // 2. Forzamos la ejecución inmediata fuera del Logger normal
         transaction {
             addLogger(StdOutSqlLogger)
-            //SchemaUtils.drop(UsuariosTable, AhorrosTable, EncuestasTable)
+            SchemaUtils.drop(UsuariosTable, AhorrosTable, EncuestasTable)
 
             SchemaUtils.create(UsuariosTable, AhorrosTable, EncuestasTable)
             commit()
