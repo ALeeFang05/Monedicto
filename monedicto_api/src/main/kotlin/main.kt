@@ -21,7 +21,5 @@ fun Application.module() {
         println("❌ ERROR DE CONEXIÓN A SQL SERVER: ${e.localizedMessage}")
         e.printStackTrace()
     }
-
-    initDatabase()           // Conecta a SQL Server y genera las tablas
     configureRouting()       // Activa las rutas/endpoints para Android
 }

@@ -39,12 +39,16 @@ object EncuestasTable : Table("encuestas") {
 }
 
 fun initDatabase() {
-    // ⚠️ REEMPLAZA: 'localhost' por la IP de tu PC si es necesario, e ingresa tu usuario y contraseña de SQL Server
+    val dbHost = System.getenv("DB_HOST") ?: ""
+    val dbName = System.getenv("DB_NAME") ?: ""
+    val dbUser = System.getenv("DB_USER") ?: ""
+    val dbPass = System.getenv("DB_PASS") ?: ""
+
     Database.connect(
-        url = "jdbc:sqlserver://localhost:1433;databaseName=monedicto;encrypt=false;trustServerCertificate=true;",
-        driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-        user = "Chang",
-        password = "ch1234"
+        url = "jdbc:postgresql://$dbHost:5432/$dbName",
+        driver = "org.postgresql.Driver",
+        user = dbUser,
+        password = dbPass
     )
     System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     System.err.println("DEBUG: ENTRANDO A INITDATABASE TOTALMENTE EN VIVO")

@@ -8,7 +8,7 @@ group = "com.example"
 version = "1.0.0-SNAPSHOT"
 
 application {
-    mainClass = "io.ktor.server.netty.EngineMain"
+    mainClass.set("com.example.ApplicationKt")
 }
 
 kotlin {
@@ -29,6 +29,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:0.53.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.53.0")
 
-    // Driver Oficial de Microsoft para SQL Server
-    implementation("com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11")
+    // Driver Oficial de Microsoft para postgreSQL
+    implementation("org.postgresql:postgresql:42.7.4")
+
 }
