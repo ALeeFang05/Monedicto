@@ -5,14 +5,14 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
 fun main() {
-    // Configuración nativa del motor Netty en Ktor 3.x
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+    val port = System.getenv("PORT")?.toIntOrNull() ?: 8080
+    embeddedServer(Netty, port = port, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 
 fun Application.module() {
     configureSerialization() // Habilita el traductor de JSON
-<<<<<<< HEAD
+
 
     try {
         initDatabase()           // Conecta a SQL Server y genera las tablas
@@ -22,8 +22,6 @@ fun Application.module() {
         e.printStackTrace()
     }
 
-=======
     initDatabase()           // Conecta a SQL Server y genera las tablas
->>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
     configureRouting()       // Activa las rutas/endpoints para Android
 }

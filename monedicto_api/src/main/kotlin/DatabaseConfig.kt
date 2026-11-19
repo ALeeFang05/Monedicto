@@ -39,7 +39,6 @@ object EncuestasTable : Table("encuestas") {
 }
 
 fun initDatabase() {
-<<<<<<< HEAD
     // ⚠️ REEMPLAZA: 'localhost' por la IP de tu PC si es necesario, e ingresa tu usuario y contraseña de SQL Server
     Database.connect(
         url = "jdbc:sqlserver://localhost:1433;databaseName=monedicto;encrypt=false;trustServerCertificate=true;",
@@ -47,11 +46,9 @@ fun initDatabase() {
         user = "Chang",
         password = "ch1234"
     )
-=======
     System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     System.err.println("DEBUG: ENTRANDO A INITDATABASE TOTALMENTE EN VIVO")
     System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
->>>>>>> 497c80fe929426d299f0b3630468fabbc585b5c2
 
     try {
         Database.connect(
