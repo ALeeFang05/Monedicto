@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
                 // ⚠️ NOTA: Asegúrate de que estos IDs coincidan con los que pusiste en 'res/menu/menu_rail_iconos.xml'
                 R.id.rail_home -> {
                     // Ya estás en el Dashboard principal, no es necesario abrir otra actividad
-                    Toast.makeText(this, "Ya estás en el Inicio", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.rail_finanzas -> {
@@ -81,15 +80,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     override fun onResume() {
         super.onResume()
         // Cada vez que la pantalla vuelva a estar al frente, cargamos la información más fresca de la BD
         cargarDatosDashboard()
         navigationRail.selectedItemId = R.id.rail_home
-
     }
-
     private fun cargarDatosDashboard() {
         // 2. RECUPERAR EL ID DE USUARIO LOGUEADO
         val preferencias = getSharedPreferences("MONEDICTO_SESION", MODE_PRIVATE)
@@ -102,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
-
         // 3. CONSULTAR LA API EN SEGUNDO PLANO
         apiService.obtenerDashboard(usuarioID).enqueue(object : Callback<DashboardResponse> {
             override fun onResponse(call: Call<DashboardResponse>, response: Response<DashboardResponse>) {

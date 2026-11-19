@@ -12,7 +12,7 @@ object UsuariosTable : Table("usuarios") {
     val id=integer("id").autoIncrement()
     val nombre = varchar("nombre", 100)
     val email = varchar("email", 100).uniqueIndex()
-    val password = varchar("password", 30)
+    val password = varchar("password", 100)
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -22,7 +22,7 @@ object AhorrosTable : Table("ahorros") {
     val usuarioID = integer("usuario_ID").references(UsuariosTable.id)
     val concepto = varchar("concepto", 150)
     val monto = double("monto")                  // Dinero parcial depositado actual
-    val montoMeta = double("monto_meta")         // La meta final calculada (monto * 3)
+    val montoMeta = double("monto_meta")         // Monto final
     val fechaInicio = varchar("fecha_inicio", 50) // Fecha en que se registra el depósito
     val fechaFin = varchar("fecha_fin", 50)       // Fecha estimada en que se completaría la meta
     override val primaryKey = PrimaryKey(id)
@@ -44,22 +44,12 @@ fun initDatabase() {
     val dbUser = System.getenv("DB_USER") ?: ""
     val dbPass = System.getenv("DB_PASS") ?: ""
 
-    Database.connect(
-        url = "jdbc:postgresql://$dbHost:5432/$dbName",
-        driver = "org.postgresql.Driver",
-        user = dbUser,
-        password = dbPass
-    )
-    System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    System.err.println("DEBUG: ENTRANDO A INITDATABASE TOTALMENTE EN VIVO")
-    System.err.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
     try {
         Database.connect(
-            url = "jdbc:sqlserver://127.0.0.1:1433;database=monedicto_db;encrypt=false;trustServerCertificate=true;",
-            driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-            user = "sa",
-            password = "12345"
+            url = "jdbc:postgresql://$dbHost:5432/$dbName",
+            driver = "org.postgresql.Driver",
+            user = dbUser,
+            password = dbPass
         )
 
         // 2. Forzamos la ejecución inmediata fuera del Logger normal

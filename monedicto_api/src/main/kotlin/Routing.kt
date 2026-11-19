@@ -65,24 +65,26 @@ fun Application.configureRouting() {
                     var sogsDto: SogsDto? = null
 
                     transaction {
-                        // Leer último ahorro de SQL Server
-                        val ultimoAhorro = AhorrosTable.selectAll()
+                        // Leer monto
+                        val filas = AhorrosTable.selectAll()
                             .where { AhorrosTable.usuarioID eq usuarioIdParam }
-                            .orderBy(AhorrosTable.id to org.jetbrains.exposed.sql.SortOrder.DESC)
-                            .limit(1)
-                            .singleOrNull()
+                            .orderBy(AhorrosTable.id to org.jetbrains.exposed.sql.SortOrder.ASC)
+                            .toList()
 
-                        if (ultimoAhorro != null) {
-                            val actual = ultimoAhorro[AhorrosTable.monto]
-                            val meta = ultimoAhorro[AhorrosTable.montoMeta]
-                            val porcentaje = if (meta > 0) ((actual / meta) * 100).toInt() else 0
+                        val primera = filas.firstOrNull()
+                        val ultima = filas.lastOrNull()
+
+                        if (primera != null && ultima != null) {
+                            val actual = filas.sumOf { it[AhorrosTable.monto] }
+                            val meta = ultima[AhorrosTable.montoMeta]
+                            val porcentaje = if (meta > 0) ((actual / meta) * 100).toInt().coerceIn(0, 100) else 0
 
                             ahorroDto = AhorroDto(
                                 montoMeta = meta,
                                 montoActual = actual,
                                 porcentajeProgreso = porcentaje,
-                                fechaInicio = ultimoAhorro[AhorrosTable.fechaInicio],
-                                fechaFin = ultimoAhorro[AhorrosTable.fechaFin]
+                                fechaInicio = primera[AhorrosTable.fechaInicio],
+                                fechaFin = ultima[AhorrosTable.fechaFin]
                             )
                         }
 

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#FAF7FA">
+    android:background="@color/fondo_frio"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,237 +13,284 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registrar nuevo Ahorro"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#222222"
-            android:layout_marginBottom="20dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Registrar nuevo Ahorro"
+        android:textColor="@color/texto_oscuro"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-        <!-- 💳 NUEVA TARJETA DE PROGRESO INTEGRAL (Sincronizada con el Dashboard) -->
-        <com.google.android.material.card.MaterialCardView
+    <!-- 💳 TARJETA DE PROGRESO INTEGRAL (Paleta Verde) -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardBackgroundColor="@color/verde_suave_fondo"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="3dp"
+        app:strokeColor="#C5DFD9"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:strokeWidth="0dp">
+            android:orientation="vertical"
+            android:padding="20dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado Actual de tu Meta"
+                android:textColor="@color/verde_primario"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- Balance general acumulado -->
+            <TextView
+                android:id="@+id/txtTotalAhorrado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="$0.00"
+                android:textColor="@color/verde_primario"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <!-- Barra informativa con meta simulada -->
+            <TextView
+                android:id="@+id/txtInfoMetas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Calculando meta estimada..."
+                android:textColor="@color/texto_gris_frio"
+                android:textSize="13sp" />
+
+            <!-- PROGRESO DE LA META -->
+            <ProgressBar
+                android:id="@+id/barraProgresoAhorro"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_marginTop="16dp"
+                android:max="100"
+                android:progress="0"
+                android:progressBackgroundTint="#C5DFD9"
+                android:progressTint="@color/verde_primario" />
+
+            <TextView
+                android:id="@+id/txtPorcentajeAhorro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="0% completado"
+                android:textColor="@color/verde_primario"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtFaltanteAhorro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Establece tu meta para comenzar"
+                android:textColor="@color/texto_gris_frio"
+                android:textSize="13sp" />
+
+            <!-- Divisor intermedio -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="14dp"
+                android:background="#C5DFD9" />
+
+            <!-- BLOQUE DE FECHAS DINÁMICAS -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp"
-                android:background="#EDE7F6"> <!-- Mantiene tu tono morado de fondo -->
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estado Actual de tu Meta"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#6C4AB6" />
-
-                <!-- Muestra el balance general acumulado -->
-                <TextView
-                    android:id="@+id/txtTotalAhorrado"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$0.00"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:textColor="#6C4AB6"
-                    android:layout_marginTop="5dp" />
-
-                <!-- Barra informativa con meta simulada -->
-                <TextView
-                    android:id="@+id/txtInfoMetas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Calculando meta estimada..."
-                    android:textSize="13sp"
-                    android:textColor="#555555"
-                    android:layout_marginTop="2dp"/>
-
-                <!-- PROGRESO DE LA META -->
-                <ProgressBar
-                    android:id="@+id/barraProgresoAhorro"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="18dp"
-                    android:layout_marginTop="16dp"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="#6C4AB6"
-                    android:progressBackgroundTint="#D1C4E9" />
-
-                <TextView
-                    android:id="@+id/txtPorcentajeAhorro"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0% completado"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#6C4AB6"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/txtFaltanteAhorro"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Establece tu meta para comenzar"
-                    android:textSize="13sp"
-                    android:textColor="#555555"
-                    android:layout_marginTop="4dp" />
-
-                <!-- Divisor intermedio -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#D1C4E9"
-                    android:layout_marginVertical="12dp"/>
-
-                <!-- BLOQUE DE FECHAS DINÁMICAS (Lado a lado) -->
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Inicio estimado"
-                            android:textSize="11sp"
-                            android:textColor="#666666"/>
-                        <TextView
-                            android:id="@+id/txtFechaInicioAhorro"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-- / -- / ----"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:textColor="#222222"/>
-                    </LinearLayout>
+                        android:text="Inicio estimado"
+                        android:textColor="@color/texto_gris_frio"
+                        android:textSize="11sp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/txtFechaInicioAhorro"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="end">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fin estimado"
-                            android:textSize="11sp"
-                            android:textColor="#666666"/>
-                        <TextView
-                            android:id="@+id/txtFechaFinAhorro"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-- / -- / ----"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:textColor="#222222"/>
-                    </LinearLayout>
+                        android:text="-- / -- / ----"
+                        android:textColor="@color/texto_oscuro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="vertical">
 
-        <!-- ✍️ SECCIÓN DE ENTRADA: CONCEPTO -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fin estimado"
+                        android:textColor="@color/texto_gris_frio"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/txtFechaFinAhorro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- / -- / ----"
+                        android:textColor="@color/texto_oscuro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ✍️ TARJETA BLANCA PARA EL FORMULARIO -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blanco"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="3dp"
+        app:strokeColor="#DCE6E8"
+        app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- CONCEPTO -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="16dp"
+            app:boxBackgroundColor="@color/fondo_frio"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#6C4AB6"
-            app:hintTextColor="#6C4AB6">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/verde_primario"
+            app:hintTextColor="@color/verde_primario">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editConcepto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Concepto u Objetivo"
-                android:inputType="text"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:clickable="true" />
+                android:inputType="textCapSentences"
+                android:textColor="@color/texto_oscuro" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- META TOTAL A ALCANZAR (OPCIONAL SI YA EXISTE UNA) -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="16dp"
+            app:boxBackgroundColor="@color/fondo_frio"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#6C4AB6"
-            app:prefixText="$ ">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/verde_primario"
+            app:hintTextColor="@color/verde_primario"
+            app:prefixText="$ "
+            app:prefixTextColor="@color/verde_primario">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editMetaAhorro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Meta total deseada (si ya tienes una, opcional)"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textColor="@color/texto_oscuro" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 💰 SECCIÓN DE ENTRADA: MONTO -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            app:boxBackgroundColor="@color/fondo_frio"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#6C4AB6"
-            app:hintTextColor="#6C4AB6"
-            app:prefixText="$ ">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/verde_primario"
+            app:hintTextColor="@color/verde_primario"
+            app:prefixText="$ "
+            app:prefixTextColor="@color/verde_primario">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editMonto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Monto a guardar"
-                android:inputType="numberDecimal"
+                android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:clickable="true" />
+                android:hint="Monto a guardar"
+                android:inputType="numberDecimal"
+                android:textColor="@color/texto_oscuro" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- ⏱️ SECCIÓN DE ENTRADA: TIEMPO -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="¿Cuánto tiempo deseas guardar tu dinero?"
+            android:textColor="@color/texto_oscuro"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:layout_marginBottom="10dp" />
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="12dp"
+            app:boxBackgroundColor="@color/fondo_frio"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#6C4AB6"
-            app:hintTextColor="#6C4AB6">
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/verde_primario"
+            app:hintTextColor="@color/verde_primario">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTiempo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Cantidad de tiempo"
-                android:inputType="number"
+                android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:clickable="true" />
+                android:hint="Cantidad de tiempo"
+                android:inputType="number"
+                android:textColor="@color/texto_oscuro" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 📅 MESES O AÑOS -->
@@ -250,36 +298,42 @@
             android:id="@+id/radioPeriodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="25dp">
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioMeses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Meses"
+                android:layout_marginEnd="30dp"
+                android:buttonTint="@color/verde_primario"
                 android:checked="true"
-                android:buttonTint="#6C4AB6"
-                android:layout_marginEnd="30dp" />
+                android:text="Meses"
+                android:textColor="@color/texto_oscuro" />
 
             <RadioButton
                 android:id="@+id/radioAnios"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#6C4AB6"
-                android:text="Años" />
+                android:buttonTint="@color/verde_primario"
+                android:text="Años"
+                android:textColor="@color/texto_oscuro" />
         </RadioGroup>
 
         <!-- 🚀 BOTÓN DE ACCIÓN -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGuardarAhorro"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/verde_primario"
             android:text="Confirmar Depósito"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/blanco"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:cornerRadius="12dp"
-            android:backgroundTint="#6C4AB6" />
+            app:cornerRadius="14dp" />
+
     </LinearLayout>
-</ScrollView>
+</com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+    </ScrollView>
