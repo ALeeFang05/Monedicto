@@ -1,90 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://android.com"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_vertical"
-    android:background="#FAF7FA">
+    android:background="@color/fondo_frio"
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Monedicto"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#6C4AB6"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Inicia sesión para controlar tus impulsos y finanzas"
-        android:textSize="14sp"
-        android:textColor="#666666"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="32dp"
-        android:textAlignment="center"/>
-
-    <!-- CORREO ELECTRÓNICO -->
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="#6C4AB6"
-        app:hintTextColor="#6C4AB6">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editLoginEmail"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Logo personalizado de Monedicto -->
+        <ImageView
+            android:id="@+id/imgLogoLogin"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Logo de Monedicto"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_monedicto" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="6dp"
+            android:text="Monedicto"
+            android:textColor="@color/verde_primario"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="28dp"
+            android:text="Inicia sesión para controlar tus impulsos y finanzas"
+            android:textAlignment="center"
+            android:textColor="@color/texto_gris_frio"
+            android:textSize="14sp" />
+
+        <!-- TARJETA BLANCA PARA EL FORMULARIO -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo Electrónico"
-            android:inputType="textEmailAddress"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/blanco"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="3dp"
+            app:strokeColor="#DCE6E8"
+            app:strokeWidth="1dp">
 
-    <!-- CONTRASEÑA -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="#6C4AB6"
-        app:hintTextColor="#6C4AB6"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="#6C4AB6">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editLoginPassword"
-            android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- CORREO ELECTRÓNICO -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="@color/fondo_frio"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@color/verde_primario"
+                    app:hintTextColor="@color/verde_primario">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editLoginEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Correo Electrónico"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/texto_oscuro" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- CONTRASEÑA -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    app:boxBackgroundColor="@color/fondo_frio"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@color/verde_primario"
+                    app:hintTextColor="@color/verde_primario"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/verde_primario">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editLoginPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Contraseña"
+                        android:inputType="textPassword"
+                        android:textColor="@color/texto_oscuro" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- BOTÓN INICIAR SESIÓN -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLoginIngresar"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:backgroundTint="@color/verde_primario"
+                    android:text="Iniciar Sesión"
+                    android:textColor="@color/blanco"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="14dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ENLACE A REGISTRO -->
+        <TextView
+            android:id="@+id/txtLoginIrARegistro"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="¿No tienes una cuenta? Regístrate aquí"
+            android:textColor="@color/verde_primario"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-    <!-- BOTÓN INICIAR SESIÓN -->
-    <Button
-        android:id="@+id/btnLoginIngresar"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:text="Iniciar Sesión"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:backgroundTint="#6C4AB6"
-        android:layout_marginBottom="16dp"
-        app:cornerRadius="12dp"/>
-
-    <!-- ENLACE A REGISTRO -->
-    <TextView
-        android:id="@+id/txtLoginIrARegistro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="¿No tienes una cuenta? Regístrate aquí"
-        android:textColor="#6C4AB6"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:padding="8dp"/>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

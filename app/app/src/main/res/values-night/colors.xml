@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sobrescribe los colores claros por sus equivalentes nocturnos -->
+    <color name="fondo_frio">#0F191C</color>           <!-- Usa fondo_oscuro_frio -->
+    <color name="blanco">#17262B</color>               <!-- Usa tarjeta_oscura_fria -->
+    <color name="texto_oscuro">#E4EFF1</color>         <!-- Usa texto_claro_frio -->
+    <color name="texto_gris_frio">#9BB0B5</color>      <!-- Gris frío más claro para subtítulos -->
+    <color name="verde_primario">#4FD1B5</color>       <!-- Usa verde_menta_brillante -->
+    <color name="verde_suave_fondo">#132A2E</color>    <!-- Verde petróleo oscuro para tarjetas destacadas -->
+
+</resources>
