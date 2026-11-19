@@ -1,7 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema nocturno de Monedicto con tonos fríos y verde menta -->
     <style name="Base.Theme.Monedicto" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Colores principales luminosos para contraste nocturno -->
+        <item name="colorPrimary">@color/verde_menta_brillante</item>
+        <item name="colorOnPrimary">@color/fondo_oscuro_frio</item>
+        <item name="colorPrimaryContainer">@color/verde_primario</item>
+        <item name="colorOnPrimaryContainer">@color/texto_claro_frio</item>
+
+        <!-- Colores secundarios y acentos -->
+        <item name="colorSecondary">@color/verde_secundario</item>
+        <item name="colorOnSecondary">@color/texto_claro_frio</item>
+        <item name="colorSecondaryContainer">@color/tarjeta_oscura_fria</item>
+        <item name="colorOnSecondaryContainer">@color/texto_claro_frio</item>
+
+        <!-- Fondo general y barra de estado superior -->
+        <item name="android:windowBackground">@color/fondo_oscuro_frio</item>
+        <item name="android:statusBarColor">@color/fondo_oscuro_frio</item>
     </style>
+
+    <style name="Theme.Monedicto" parent="Base.Theme.Monedicto" />
 </resources>

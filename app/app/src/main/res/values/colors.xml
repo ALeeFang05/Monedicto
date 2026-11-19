@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="verde">#1B5E20</color>
+    <!-- Paleta Principal: Verde Esmeralda y Tonos Fríos -->
+    <color name="verde_primario">#0D7A5F</color>       <!-- Verde bosque profundo para botones y títulos -->
+    <color name="verde_secundario">#1B998B</color>     <!-- Verde menta frío para acentos e interruptores -->
+    <color name="verde_suave_fondo">#E6F4F1</color>    <!-- Verde menta muy claro para resaltar tarjetas -->
+    <color name="fondo_frio">#F2F6F7</color>           <!-- Gris azulado muy tenue para el fondo general -->
+    <color name="texto_oscuro">#1A282D</color>         <!-- Azul petróleo oscuro para lectura cómoda -->
+    <color name="texto_gris_frio">#5C7076</color>      <!-- Gris pizarra para subtítulos -->
+    <color name="blanco">#FFFFFF</color>
 
+    <!-- Paleta Modo Oscuro (Tonos Fríos Nocturnos) -->
+    <color name="fondo_oscuro_frio">#0F191C</color>        <!-- Fondo azul petróleo casi negro -->
+    <color name="tarjeta_oscura_fria">#17262B</color>      <!-- Superficie elevada para tarjetas -->
+    <color name="verde_menta_brillante">#4FD1B5</color>    <!-- Verde luminoso para resaltar sobre oscuro -->
+    <color name="texto_claro_frio">#E4EFF1</color>         <!-- Blanco azulado suave para lectura nocturna -->
 </resources>

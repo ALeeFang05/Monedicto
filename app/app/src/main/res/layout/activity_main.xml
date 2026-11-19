@@ -6,15 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#F8F9FA">
+    android:background="@color/fondo_frio">
 
     <!-- 1. BARRA SUPERIOR (Toolbar) -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/verde_primario"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@color/blanco"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -27,8 +28,8 @@
             android:text="M"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:backgroundTint="?attr/colorAccent"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/verde_secundario"
+            android:textColor="@color/blanco"
             android:visibility="gone"
             tools:visibility="visible"/>
 
@@ -39,8 +40,11 @@
         android:id="@+id/navigationRail"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:background="@color/blanco"
         app:headerLayout="@layout/rail_header"
         app:menu="@menu/menu_rail_iconos"
+        app:itemIconTint="@color/verde_primario"
+        app:itemActiveIndicatorStyle="@style/Widget.Material3.NavigationRailView.ActiveIndicator"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +58,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/navigationRail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,17 +70,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¡Bienvenido de vuelta!"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="#212121"
+                android:textColor="@color/texto_oscuro"
                 android:layout_marginBottom="4dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tu resumen financiero y ludopático"
+                android:text="Tu resumen financiero y bienestar"
                 android:textSize="14sp"
-                android:textColor="#757575"
+                android:textColor="@color/texto_gris_frio"
                 android:layout_marginBottom="20dp"/>
 
             <!-- TARJETA 1: Meta General de Ahorro -->
@@ -85,16 +88,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF"
-                app:strokeWidth="0dp">
+                app:cardBackgroundColor="@color/blanco"
+                app:strokeColor="#DCE6E8"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -102,20 +106,20 @@
                         android:text="Meta General de Ahorro"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary" />
+                        android:textColor="@color/verde_primario" />
 
-                    <!-- El id coincide con el LinearProgressIndicator del MainActivity -->
+                    <!-- Barra de progreso en tonos verdes -->
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/progresoAhorro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="14dp"
                         app:trackThickness="10dp"
-                        app:trackCornerRadius="4dp"
+                        app:trackCornerRadius="5dp"
                         android:max="100"
                         android:progress="0"
-                        app:trackColor="#E0D7F3"
-                        app:indicatorColor="#6C4AB6" />
+                        app:trackColor="@color/verde_suave_fondo"
+                        app:indicatorColor="@color/verde_primario" />
 
                     <!-- Fila informativa de balances -->
                     <TextView
@@ -123,9 +127,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="$0.00"
-                        android:textSize="28sp"
+                        android:textSize="30sp"
                         android:textStyle="bold"
-                        android:textColor="#212121"/>
+                        android:textColor="@color/texto_oscuro"/>
 
                     <TextView
                         android:id="@+id/txtMetaAhorro"
@@ -133,14 +137,14 @@
                         android:layout_height="wrap_content"
                         android:text="Meta: $0.00"
                         android:textSize="13sp"
-                        android:textColor="#666666"
-                        android:layout_marginBottom="12dp"/>
+                        android:textColor="@color/texto_gris_frio"
+                        android:layout_marginBottom="14dp"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#E0E0E0"
-                        android:layout_marginBottom="12dp"/>
+                        android:background="#EDF2F4"
+                        android:layout_marginBottom="14dp"/>
 
                     <!-- BLOQUE DE FECHAS -->
                     <LinearLayout
@@ -158,7 +162,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Fecha Inicio"
                                 android:textSize="11sp"
-                                android:textColor="#757575"/>
+                                android:textColor="@color/texto_gris_frio"/>
                             <TextView
                                 android:id="@+id/txtFechaInicio"
                                 android:layout_width="wrap_content"
@@ -166,7 +170,7 @@
                                 android:text="-- / -- / ----"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                android:textColor="#212121"/>
+                                android:textColor="@color/texto_oscuro"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -178,9 +182,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fecha Fin"
+                                android:text="Fecha Límite"
                                 android:textSize="11sp"
-                                android:textColor="#757575"/>
+                                android:textColor="@color/texto_gris_frio"/>
                             <TextView
                                 android:id="@+id/txtFechaFin"
                                 android:layout_width="wrap_content"
@@ -188,27 +192,29 @@
                                 android:text="-- / -- / ----"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                android:textColor="#212121"/>
+                                android:textColor="@color/texto_oscuro"/>
                         </LinearLayout>
                     </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- TARJETA 2: Diagnóstico Ludopatía (Cuestionario SOGS) -->
+            <!-- TARJETA 2: Último Diagnóstico SOGS -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF"
-                app:strokeWidth="0dp">
+                app:cardBackgroundColor="@color/verde_suave_fondo"
+                app:strokeColor="@color/verde_secundario"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -216,7 +222,7 @@
                         android:text="Último Diagnóstico SOGS"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="@color/verde_primario"
                         android:layout_marginBottom="8dp" />
 
                     <!-- Muestra los puntos (Ej: 4 / 13 Puntos) -->
@@ -225,9 +231,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0 / 13 Puntos"
-                        android:textSize="24sp"
+                        android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="#212121" />
+                        android:textColor="@color/texto_oscuro" />
 
                     <!-- Muestra la clasificación clínica (Ej: Juego de Riesgo) -->
                     <TextView
@@ -237,7 +243,7 @@
                         android:text="Sin evaluaciones"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#6C4AB6"
+                        android:textColor="@color/verde_primario"
                         android:layout_marginBottom="4dp" />
 
                     <!-- Muestra el número total de encuestas realizadas -->
@@ -247,13 +253,13 @@
                         android:layout_height="wrap_content"
                         android:text="Evaluaciones hechas: 0"
                         android:textSize="12sp"
-                        android:textColor="#757575"
+                        android:textColor="@color/texto_gris_frio"
                         android:layout_marginBottom="12dp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#E0E0E0"
+                        android:background="#CDE3DF"
                         android:layout_marginBottom="12dp"/>
 
                     <TextView
@@ -261,8 +267,8 @@
                         android:layout_height="wrap_content"
                         android:text="Última reflexión guardada:"
                         android:textSize="11sp"
-                        android:textColor="#757575"
-                        android:layout_marginBottom="2dp" />
+                        android:textColor="@color/texto_gris_frio"
+                        android:layout_marginBottom="4dp" />
 
                     <!-- Caja para el texto de auto-reflexión larga -->
                     <TextView
@@ -272,12 +278,11 @@
                         android:text="&quot;No hay reflexiones registradas todavía.&quot;"
                         android:textSize="13sp"
                         android:textStyle="italic"
-                        android:textColor="#424242"/>
+                        android:textColor="@color/texto_oscuro"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
